@@ -67,7 +67,6 @@ const TableCustomer = () => {
       .get("http://localhost:3000/customer")
       .then((response) => {
         setRows(response.data.result);
-        setFilteredRows(response.data.result);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -78,9 +77,9 @@ const TableCustomer = () => {
     if (clickedRowId !== null) {
       try {
         await axios.delete(`http://localhost:3000/customer/${clickedRowId}`);
-        setRows(rows.filter((customer) => customer.custId !== clickedRowId));
+        setRows(rows.filter((customers) => customers.custId !== clickedRowId));
       } catch (error) {
-        console.error("Error deleting customer:", error);
+        console.error("Error deleting customers:", error);
       }
     }
     setAnchorEl(null);
@@ -95,6 +94,7 @@ const TableCustomer = () => {
     setFilteredRows(results);
   }, [searchValue, rows]);
 
+  
   const handleClick = (
     event: React.MouseEvent<HTMLElement>,
     custId: number

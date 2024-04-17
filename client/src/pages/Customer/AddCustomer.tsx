@@ -11,7 +11,7 @@ import CustomersProps from "@typings/Interface/CustomersProps";
 const AddCustomer = () => {
   const navigate = useNavigate();
 
-  const [customer, setCustomer] = useState<CustomersProps>({
+  const [customers, setCustomers] = useState<CustomersProps>({
     name: "",
     phone: "",
     email: "",
@@ -31,33 +31,31 @@ const AddCustomer = () => {
     if (custId) {
       axios
         .get(`http://localhost:3000/customer/${custId}`)
-        .then((response) => {
-          setCustomer(response.data);
-        })
+        .then((response) => {})
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
     }
   }, [custId]);
-  
-
+ 
+ 
   const handleEditCustomer = () => {
     if (
-      !customer.name ||
-      !customer.phone ||
-      !customer.email ||
-      !customer.address
+      !customers.name ||
+      !customers.phone ||
+      !customers.email ||
+      !customers.address
     ) {
       setError({
-        name: customer.name ? "" : "Name is required.",
-        phone: customer.phone ? "" : "Phone is required.",
-        email: customer.email ? "" : "Email is required.",
-        address: customer.address ? "" : "Address is required.",
+        name: customers.name ? "" : "Name is required.",
+        phone: customers.phone ? "" : "Phone is required.",
+        email: customers.email ? "" : "Email is required.",
+        address: customers.address ? "" : "Address is required.",
       });
       return;
     }
     axios
-      .patch(`http://localhost:3000/customer/${custId}`, customer)
+      .patch(`http://localhost:3000/customer/${custId}`, customers)
       .then((response) => {
         navigate("/");
       })
@@ -68,21 +66,21 @@ const AddCustomer = () => {
 
   const handleAddCustomer = () => {
     if (
-      !customer.name ||
-      !customer.phone ||
-      !customer.email ||
-      !customer.address
+      !customers.name ||
+      !customers.phone ||
+      !customers.email ||
+      !customers.address
     ) {
       setError({
-        name: customer.name ? "" : "Name is required.",
-        phone: customer.phone ? "" : "Phone is required.",
-        email: customer.email ? "" : "Email is required.",
-        address: customer.address ? "" : "Address is required.",
+        name: customers.name ? "" : "Name is required.",
+        phone: customers.phone ? "" : "Phone is required.",
+        email: customers.email ? "" : "Email is required.",
+        address: customers.address ? "" : "Address is required.",
       });
       return;
     }
     axios
-      .post("http://localhost:3000/customer", customer)
+      .post("http://localhost:3000/customer", customers)
       .then((response) => {
         navigate("/");
       })
@@ -124,9 +122,9 @@ const AddCustomer = () => {
 
         <CustomerCard
           customerFormProps={{
-            customers: customer,
+            customers: customers,
             error: error,
-            setCustomers: setCustomer,
+            setCustomers: setCustomers,
           }}
           act={custId ? "edit" : "add"}
           handleAddCustomer={handleAddCustomer}
