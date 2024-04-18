@@ -1,5 +1,5 @@
 import express, { Application } from "express";
-import cors from "cors";
+import cors,{CorsOptions} from "cors";
 import Routes from "./routers";
 
 export default class Server {
@@ -9,8 +9,9 @@ export default class Server {
   }
 
   private config(app: Application): void {
-  
-
+    const corsOptions: CorsOptions = {
+      origin: "http://localhost:5173"
+    };
     app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));

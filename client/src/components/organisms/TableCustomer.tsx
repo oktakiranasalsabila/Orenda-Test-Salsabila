@@ -84,17 +84,15 @@ const TableCustomer = () => {
     }
     setAnchorEl(null);
   };
-
-  useEffect(() => {
-    const results = Array.isArray(rows)
-      ? rows.filter((row) =>
-          row.name.toLowerCase().includes(searchValue.toLowerCase())
-        )
-      : [];
-    setFilteredRows(results);
-  }, [searchValue, rows]);
-
   
+  useEffect(() => {
+    const results = rows.filter(row =>
+        row.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setFilteredRows(results);
+}, [searchValue, rows]);
+
+
   const handleClick = (
     event: React.MouseEvent<HTMLElement>,
     custId: number
@@ -151,8 +149,7 @@ const TableCustomer = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(filteredRows) &&
-              filteredRows.map((row, index) => (
+            {filteredRows.map((row, index) => (
                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                   {columns.map((column) => {
                     const value = row[column.id];

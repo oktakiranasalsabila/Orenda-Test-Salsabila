@@ -31,14 +31,16 @@ const AddCustomer = () => {
     if (custId) {
       axios
         .get(`http://localhost:3000/customer/${custId}`)
-        .then((response) => {})
+        .then((response) => {
+          setCustomers(response.data.result);
+        })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
     }
   }, [custId]);
- 
- 
+
+  
   const handleEditCustomer = () => {
     if (
       !customers.name ||

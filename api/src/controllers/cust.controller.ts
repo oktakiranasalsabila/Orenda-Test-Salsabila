@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import {PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -15,10 +15,7 @@ export default class CustomerController {
           address,
         },
       });
-      res.status(200).json({
-        message: "Menambahkan data Customer berhasil",
-        result,
-      });
+      res.status(200).json(result);
     } catch (error) {
       res.status(500).json({
         message: "Server Error",
@@ -28,10 +25,8 @@ export default class CustomerController {
   async getAllCustomer(req: Request, res: Response) {
     try {
       const result = await prisma.customer.findMany();
-      res.status(201).json({
-        message: "Menampilkan semua data Customer berhasil",
-        result,
-      });
+      res.status(201).json(result);
+     
     } catch (error) {
       res.status(500).json({
         message: "Server Error!",
@@ -44,10 +39,7 @@ export default class CustomerController {
       const result = await prisma.customer.findUnique({
         where: { custId: Number(id) || undefined },
       });
-      res.status(201).json({
-        message: "getCustomerById OK",
-        result,
-      });
+      res.status(201).json(result);
     } catch (error) {
       res.status(500).json({
         message: "Server Error!",
@@ -58,17 +50,14 @@ export default class CustomerController {
     try {
       const { id } = req.params;
       const { name, phone, email, address } = req.body;
-      const updateCustomer = await prisma.customer.update({
+      const updatedCustomer = await prisma.customer.update({
         where: { custId: Number(id) || undefined },
         data: { name, phone, email, address },
       });
-      res.status(200).json({
-        message: " data Customer berhasil di update",
-        updateCustomer,
-      });
-    } catch (error) {
+      res.status(200).json(updatedCustomer);
+    } catch (err) {
       res.status(500).json({
-        message: "Server Error!",
+        message: "Internal Server Error!",
       });
     }
   }
@@ -78,10 +67,7 @@ export default class CustomerController {
       const deleteCustomer = await prisma.customer.delete({
         where: { custId: Number(id) || undefined },
       });
-      res.status(200).json({
-        message: "data Customer berhasil di hapus",
-        deleteCustomer,
-      });
+      res.status(201).json(deleteCustomer);
     } catch (error) {
       res.status(500).json({
         message: "Server Error!",
